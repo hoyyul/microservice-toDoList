@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"context"
 	"fmt"
 
 	"go-micro-toDoList/user/global"
@@ -63,4 +64,9 @@ func Migrate() {
 		return
 	}
 	global.Logger.Info("[ success ] Table schema migration successful.")
+}
+
+func DBWithContext(ctx context.Context) *gorm.DB {
+	db := _db
+	return db.WithContext(ctx)
 }
