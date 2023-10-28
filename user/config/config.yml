@@ -1,5 +1,6 @@
 server:
-  port: 4000
+  address: 10002
+  name: user
   env: release
   version: 1.0
 

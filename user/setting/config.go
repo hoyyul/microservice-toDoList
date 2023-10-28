@@ -22,4 +22,5 @@ func InitConfig() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	log.Println("Configuration file loads successfully.")
 }
