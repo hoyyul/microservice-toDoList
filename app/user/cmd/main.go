@@ -1,28 +1,32 @@
 package main
 
 import (
+	"go-micro-toDoList/app/user/internal/repository/dao"
+	"go-micro-toDoList/app/user/internal/service"
+	"go-micro-toDoList/app/user/pb"
+	"go-micro-toDoList/global"
 	"go-micro-toDoList/pkg/eTcd"
-	"go-micro-toDoList/user/global"
-	"go-micro-toDoList/user/internal/service"
-	"go-micro-toDoList/user/pb"
-	"go-micro-toDoList/user/setting"
+	"go-micro-toDoList/setting"
 	"net"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
-	// initial setting
+	// global initial setting
 	setting.InitConfig()
 	setting.InitLogger()
+
+	// local initial setting
+	dao.InitDB()
 
 	// register service to etcd
 	etcdRegistrar := eTcd.NewRegistrar(global.Config.Server.Addr)
 	defer etcdRegistrar.UnRegister()
 
 	taskNode := eTcd.Server{
-		Name: global.Config.Server.Name,
-		Addr: global.Config.Server.Addr,
+		Name: global.Config.Services["user"].Name,
+		Addr: global.Config.Services["user"].Address,
 	}
 	if err := etcdRegistrar.Register(taskNode, 10); err != nil {
 		global.Logger.Fatalln("Failed to register service to Etcd Server")

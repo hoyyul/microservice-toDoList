@@ -3,9 +3,8 @@ package dao
 import (
 	"context"
 	"fmt"
-
-	"go-micro-toDoList/user/global"
-	"go-micro-toDoList/user/internal/repository/model"
+	"go-micro-toDoList/app/user/internal/repository/model"
+	"go-micro-toDoList/global"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -15,7 +14,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-var _db *gorm.DB
+var db *gorm.DB
 
 func InitDB() {
 	// 1. dsn
@@ -30,7 +29,7 @@ func InitDB() {
 	}
 
 	// 3. gorm open + config
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	_db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: mylogger,
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true},
@@ -40,13 +39,13 @@ func InitDB() {
 	}
 
 	// 4. DB()
-	sqlDB, _ := db.DB()
+	sqlDB, _ := _db.DB()
 	sqlDB.SetMaxIdleConns(20)
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Second * 30)
 
-	// 5. migrate
-	_db = db
+	db = _db
+	// 5. migrate (if first time)
 	Migrate()
 }
 
@@ -56,7 +55,7 @@ func dsn() string {
 }
 
 func Migrate() {
-	err := _db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
+	err := db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(
 		&model.User{},
 	)
 	if err != nil {
@@ -67,6 +66,6 @@ func Migrate() {
 }
 
 func DBWithContext(ctx context.Context) *gorm.DB {
-	db := _db
-	return db.WithContext(ctx)
+	_db := db
+	return _db.WithContext(ctx)
 }

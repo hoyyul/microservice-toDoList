@@ -3,8 +3,8 @@ package dao
 import (
 	"context"
 	"errors"
-	"go-micro-toDoList/user/internal/repository/model"
-	"go-micro-toDoList/user/pb"
+	"go-micro-toDoList/app/user/internal/repository/model"
+	"go-micro-toDoList/app/user/pb"
 
 	"gorm.io/gorm"
 )
@@ -31,7 +31,7 @@ func (dao *UserDao) CreateUser(req *pb.UserRequest) error {
 	var count int64
 	dao.Model(&model.User{}).Where("user_name=?", req.UserName).Count(&count)
 	if count > 0 {
-		return errors.New("User already exists")
+		return errors.New("user already exists")
 	}
 
 	user := &model.User{

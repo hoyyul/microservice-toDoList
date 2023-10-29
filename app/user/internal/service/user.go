@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
+	"go-micro-toDoList/app/user/internal/repository/dao"
+	"go-micro-toDoList/app/user/pb"
 	"go-micro-toDoList/pkg/errmsg"
-	"go-micro-toDoList/user/internal/repository/dao"
-	"go-micro-toDoList/user/pb"
 )
 
 type UserService struct {

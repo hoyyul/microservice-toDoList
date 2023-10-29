@@ -1,7 +1,7 @@
 server:
-  address: 10002
-  name: user
+  address: 4000
   env: release
+  jwt: 3369
   version: 1.0
 
 mysql:
@@ -18,3 +18,14 @@ etcd:
 redis:
   address: 127.0.0.1:6369
   password:
+
+services:
+  gateway:
+    name: gateway
+    address: 127.0.0.1:10001
+  user:
+    name: user
+    address: 127.0.0.1:10002
+  task:
+    name: task
+    address: 127.0.0.1:10003

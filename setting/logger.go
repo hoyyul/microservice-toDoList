@@ -3,7 +3,8 @@ package setting
 import (
 	"bytes"
 	"fmt"
-	"go-micro-toDoList/user/global"
+	"go-micro-toDoList/global"
+
 	"log"
 	"os"
 	"path"
@@ -24,6 +25,9 @@ type myFormatter struct {
 }
 
 func InitLogger() {
+	if global.Logger != nil {
+		return
+	}
 	logger := logrus.New()       // instance
 	logger.SetOutput(os.Stdout)  //stdout
 	logger.SetReportCaller(true) //show line

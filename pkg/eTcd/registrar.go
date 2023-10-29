@@ -10,6 +10,7 @@ import (
 
 type Registrar struct {
 	EtcdAddr string
+	EtcdUrl  string
 
 	// hiden info
 	cli *clientv3.Client
@@ -17,7 +18,10 @@ type Registrar struct {
 }
 
 func NewRegistrar(etcdAddr string) *Registrar {
-	return &Registrar{EtcdAddr: etcdAddr}
+	return &Registrar{
+		EtcdAddr: etcdAddr,
+		EtcdUrl:  fmt.Sprintf("http://%s", etcdAddr),
+	}
 }
 
 func (r *Registrar) Register(srv Server, ttl int64) error {
@@ -25,7 +29,7 @@ func (r *Registrar) Register(srv Server, ttl int64) error {
 	r.srv = srv
 
 	// create etcd conn
-	cli, err := clientv3.NewFromURL(r.EtcdAddr)
+	cli, err := clientv3.NewFromURL(r.EtcdUrl)
 	if err != nil {
 		return err
 	}

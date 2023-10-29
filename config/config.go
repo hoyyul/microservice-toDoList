@@ -1,16 +1,17 @@
 package config
 
 type Config struct {
-	Server Server `yaml:"server"`
-	Mysql  Mysql  `yaml:"mysql"`
-	Etcd   Etcd   `yaml:"etcd"`
-	Redis  Redis  `yaml:"redis"`
+	Server   *Server             `yaml:"server"`
+	Mysql    *Mysql              `yaml:"mysql"`
+	Etcd     *Etcd               `yaml:"etcd"`
+	Redis    *Redis              `yaml:"redis"`
+	Services map[string]*Service `yaml:"services"`
 }
 
 type Server struct {
 	Addr    string `yaml:"address"`
-	Name    string `yaml:"name"`
 	ENV     string `yaml:"env"`
+	Jwt     string `yaml:"jwt"`
 	Version string `yaml:"version"`
 }
 type Mysql struct {
@@ -27,6 +28,11 @@ type Etcd struct {
 }
 
 type Redis struct {
-	Address  string `yaml:"redis"`
+	Address  string `yaml:"address"`
 	Password string `yaml:"password"`
+}
+
+type Service struct {
+	Name    string `yaml:"name"`
+	Address string `yaml:"address"`
 }
