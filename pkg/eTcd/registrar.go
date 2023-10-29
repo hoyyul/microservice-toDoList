@@ -10,7 +10,6 @@ import (
 
 type Registrar struct {
 	EtcdAddr string
-	EtcdUrl  string
 
 	// hiden info
 	cli *clientv3.Client
@@ -18,10 +17,7 @@ type Registrar struct {
 }
 
 func NewRegistrar(etcdAddr string) *Registrar {
-	return &Registrar{
-		EtcdAddr: etcdAddr,
-		EtcdUrl:  fmt.Sprintf("http://%s", etcdAddr),
-	}
+	return &Registrar{EtcdAddr: etcdAddr}
 }
 
 func (r *Registrar) Register(srv Server, ttl int64) error {
@@ -29,7 +25,7 @@ func (r *Registrar) Register(srv Server, ttl int64) error {
 	r.srv = srv
 
 	// create etcd conn
-	cli, err := clientv3.NewFromURL(r.EtcdUrl)
+	cli, err := clientv3.NewFromURL(fmt.Sprintf("http://%s", r.EtcdAddr))
 	if err != nil {
 		return err
 	}
@@ -42,11 +38,11 @@ func (r *Registrar) Register(srv Server, ttl int64) error {
 	}
 
 	// add service to endpoint
-	em, err := endpoints.NewManager(r.cli, r.srv.Name)
+	em, err := endpoints.NewManager(r.cli, BuildPrefix(r.srv))
 	if err != nil {
 		return err
 	}
-	em.AddEndpoint(context.TODO(), fmt.Sprintf("%s:%s", r.srv.Name, r.srv.Addr), endpoints.Endpoint{Addr: r.srv.Addr}, clientv3.WithLease(lease.ID))
+	em.AddEndpoint(context.TODO(), BuildRegisterPath(r.srv), endpoints.Endpoint{Addr: r.srv.Addr}, clientv3.WithLease(lease.ID))
 
 	// revoke
 	go r.cli.KeepAlive(context.TODO(), lease.ID)

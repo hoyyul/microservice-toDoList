@@ -3,9 +3,10 @@ package main
 import (
 	"go-micro-toDoList/app/user/internal/repository/dao"
 	"go-micro-toDoList/app/user/internal/service"
-	"go-micro-toDoList/app/user/pb"
+
 	"go-micro-toDoList/global"
 	"go-micro-toDoList/pkg/eTcd"
+	"go-micro-toDoList/pkg/pb"
 	"go-micro-toDoList/setting"
 	"net"
 
@@ -21,14 +22,14 @@ func main() {
 	dao.InitDB()
 
 	// register service to etcd
-	etcdRegistrar := eTcd.NewRegistrar(global.Config.Server.Addr)
+	etcdRegistrar := eTcd.NewRegistrar(global.Config.Etcd.Address) // etcd
 	defer etcdRegistrar.UnRegister()
 
-	taskNode := eTcd.Server{
+	server := eTcd.Server{
 		Name: global.Config.Services["user"].Name,
 		Addr: global.Config.Services["user"].Address,
 	}
-	if err := etcdRegistrar.Register(taskNode, 10); err != nil {
+	if err := etcdRegistrar.Register(server, 10); err != nil { // my server
 		global.Logger.Fatalln("Failed to register service to Etcd Server")
 		return
 	}

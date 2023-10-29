@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"go-micro-toDoList/app/user/internal/repository/model"
-	"go-micro-toDoList/app/user/pb"
+	"go-micro-toDoList/pkg/pb"
 
 	"gorm.io/gorm"
 )

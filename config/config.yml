@@ -22,10 +22,13 @@ redis:
 services:
   gateway:
     name: gateway
+    loadBalance: false
     address: 127.0.0.1:10001
   user:
     name: user
+    loadBalance: false
     address: 127.0.0.1:10002
   task:
     name: task
+    loadBalance: false
     address: 127.0.0.1:10003

@@ -33,6 +33,7 @@ type Redis struct {
 }
 
 type Service struct {
-	Name    string `yaml:"name"`
-	Address string `yaml:"address"`
+	Name        string `yaml:"name"`
+	LoadBalance bool   `yaml:"loadBalance"`
+	Address     string `yaml:"address"`
 }

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"go-micro-toDoList/app/user/internal/repository/dao"
-	"go-micro-toDoList/app/user/pb"
 	"go-micro-toDoList/pkg/errmsg"
+	"go-micro-toDoList/pkg/pb"
 )
 
 type UserService struct {
