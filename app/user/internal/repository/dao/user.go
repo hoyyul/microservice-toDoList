@@ -3,8 +3,8 @@ package dao
 import (
 	"context"
 	"errors"
-	"go-micro-toDoList/app/user/internal/repository/model"
-	"go-micro-toDoList/pkg/pb"
+	"micro-toDoList/app/user/internal/repository/model"
+	"micro-toDoList/pkg/pb"
 
 	"gorm.io/gorm"
 )

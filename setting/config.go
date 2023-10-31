@@ -2,7 +2,7 @@ package setting
 
 import (
 	"fmt"
-	"go-micro-toDoList/global"
+	"micro-toDoList/global"
 
 	"log"
 	"os"
@@ -26,5 +26,6 @@ func InitConfig() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	log.Println("Configuration file loads successfully.")
 }

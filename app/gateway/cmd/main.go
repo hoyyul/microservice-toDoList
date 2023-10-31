@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"go-micro-toDoList/app/gateway/routes"
-	"go-micro-toDoList/app/gateway/rpc"
-	"go-micro-toDoList/global"
-	"go-micro-toDoList/setting"
+	"micro-toDoList/app/gateway/routes"
+	"micro-toDoList/app/gateway/rpc"
+	"micro-toDoList/global"
+	"micro-toDoList/setting"
+
 	"net/http"
 	"os"
 	"os/signal"
@@ -29,7 +30,7 @@ func main() {
 func startListenAndServe() {
 	r := routes.NewRouter()
 	server := &http.Server{
-		Addr:           global.Config.Server.Addr,
+		Addr:           ":" + global.Config.Server.Address,
 		Handler:        r,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
@@ -42,7 +43,7 @@ func startListenAndServe() {
 		}
 	}()
 
-	global.Logger.Println("gateway listen on: %s", global.Config.Server.Addr)
+	global.Logger.Printf("gateway listen on: %s", global.Config.Server.Address)
 	gracefulShutdown(server)
 }
 

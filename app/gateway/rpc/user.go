@@ -3,8 +3,8 @@ package rpc
 import (
 	"context"
 	"errors"
-	"go-micro-toDoList/pkg/errmsg"
-	"go-micro-toDoList/pkg/pb"
+	"micro-toDoList/pkg/errmsg"
+	"micro-toDoList/pkg/pb"
 )
 
 func UserLogin(ctx context.Context, req *pb.UserRequest) (*pb.UserResponse, error) {

@@ -3,13 +3,11 @@ package jwts
 import (
 	"errors"
 	"fmt"
-	"go-micro-toDoList/global"
+	"micro-toDoList/global"
 	"time"
 
 	"github.com/dgrijalva/jwt-go/v4"
 )
-
-var MySecret = []byte(global.Config.Server.Jwt)
 
 type CustomClaim struct {
 	userId int64
@@ -26,12 +24,12 @@ func GenerateToken(userId int64) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
-	return token.SignedString(MySecret)
+	return token.SignedString(getMySecret())
 }
 
 func ParseToken(tokenStr string) (*CustomClaim, error) {
 	// 根据字符串取token
-	token, err := jwt.ParseWithClaims(tokenStr, &CustomClaim{}, func(token *jwt.Token) (interface{}, error) { return MySecret, nil })
+	token, err := jwt.ParseWithClaims(tokenStr, &CustomClaim{}, func(token *jwt.Token) (interface{}, error) { return getMySecret(), nil })
 	if err != nil {
 		global.Logger.Error(fmt.Sprintf("token parse err: %s", err.Error()))
 		return nil, err
@@ -42,4 +40,8 @@ func ParseToken(tokenStr string) (*CustomClaim, error) {
 		return claim, nil
 	}
 	return nil, errors.New("invalid token")
+}
+
+func getMySecret() []byte {
+	return []byte(global.Config.Server.Jwt)
 }

@@ -1,11 +1,12 @@
 package http
 
 import (
-	"go-micro-toDoList/app/gateway/rpc"
-	"go-micro-toDoList/global"
-	"go-micro-toDoList/pkg/pb"
-	"go-micro-toDoList/pkg/resp"
-	"go-micro-toDoList/pkg/util/jwts"
+	"micro-toDoList/app/gateway/rpc"
+	"micro-toDoList/global"
+	"micro-toDoList/pkg/pb"
+	"micro-toDoList/pkg/resp"
+	"micro-toDoList/pkg/util/jwts"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"

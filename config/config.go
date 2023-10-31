@@ -9,8 +9,8 @@ type Config struct {
 }
 
 type Server struct {
-	Addr    string `yaml:"address"`
-	ENV     string `yaml:"env"`
+	Address string `yaml:"address"`
+	Env     string `yaml:"env"`
 	Jwt     string `yaml:"jwt"`
 	Version string `yaml:"version"`
 }

@@ -7,7 +7,7 @@ server:
 mysql:
   host: 127.0.0.1
   port: 3306
-  database: go_micro_toDoList
+  database: todolist
   username : root
   password: root
   charset: utf8mb4
@@ -23,12 +23,12 @@ services:
   gateway:
     name: gateway
     loadBalance: false
-    address: 127.0.0.1:10001
+    address: 
   user:
     name: user
     loadBalance: false
-    address: 127.0.0.1:10002
+    address: 127.0.0.1:10001
   task:
     name: task
     loadBalance: false
-    address: 127.0.0.1:10003
+    address: 127.0.0.1:10002

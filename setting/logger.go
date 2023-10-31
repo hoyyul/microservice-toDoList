@@ -3,7 +3,7 @@ package setting
 import (
 	"bytes"
 	"fmt"
-	"go-micro-toDoList/global"
+	"micro-toDoList/global"
 
 	"log"
 	"os"

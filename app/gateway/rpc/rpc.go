@@ -3,8 +3,9 @@ package rpc
 import (
 	"context"
 	"fmt"
-	"go-micro-toDoList/global"
-	"go-micro-toDoList/pkg/pb"
+	"micro-toDoList/global"
+	"micro-toDoList/pkg/pb"
+
 	"time"
 
 	clientv3 "go.etcd.io/etcd/client/v3"

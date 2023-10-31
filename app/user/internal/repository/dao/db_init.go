@@ -3,8 +3,10 @@ package dao
 import (
 	"context"
 	"fmt"
-	"go-micro-toDoList/app/user/internal/repository/model"
-	"go-micro-toDoList/global"
+	"micro-toDoList/app/user/internal/repository/model"
+
+	"micro-toDoList/global"
+
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -22,7 +24,7 @@ func InitDB() {
 
 	// 2. set gorm logger
 	var mylogger logger.Interface
-	if global.Config.Server.ENV == "debug" {
+	if global.Config.Server.Env == "debug" {
 		mylogger = logger.Default.LogMode(logger.Info)
 	} else {
 		mylogger = logger.Default

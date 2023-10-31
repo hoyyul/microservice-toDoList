@@ -1,7 +1,7 @@
 package global
 
 import (
-	"go-micro-toDoList/config"
+	"micro-toDoList/config"
 
 	"github.com/sirupsen/logrus"
 )

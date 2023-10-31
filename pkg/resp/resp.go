@@ -1,7 +1,7 @@
 package resp
 
 import (
-	"go-micro-toDoList/pkg/errmsg"
+	"micro-toDoList/pkg/errmsg"
 
 	"github.com/gin-gonic/gin"
 )
