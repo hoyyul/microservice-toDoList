@@ -44,7 +44,7 @@ func main() {
 	grpcSrv := grpc.NewServer()
 	pb.RegisterUserServiceServer(grpcSrv, service.NewUserService())
 
-	// start to serve
+	// start grpc server
 	if err := grpcSrv.Serve(listener); err != nil {
 		return
 	}

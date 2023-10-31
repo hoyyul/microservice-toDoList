@@ -19,10 +19,17 @@ func NewUserService() *UserService {
 func (s *UserService) UserLogin(ctx context.Context, req *pb.UserRequest) (*pb.UserDetailResponse, error) {
 	resp := &pb.UserDetailResponse{}
 
+	// if user exists
 	user, err := dao.NewUserDao(ctx).GetUserInfo(req)
 	if err != nil {
 		resp.Code = errmsg.FAILURE
 		return resp, err
+	}
+
+	// if pwd correct
+	if !user.CheckPwd(req.Password) {
+		resp.Code = errmsg.FAILURE
+		return resp, nil
 	}
 
 	resp.UserDetail = &pb.UserResponse{
@@ -38,12 +45,6 @@ func (s *UserService) UserLogin(ctx context.Context, req *pb.UserRequest) (*pb.U
 func (s *UserService) UserRegister(ctx context.Context, req *pb.UserRequest) (*pb.UserCommonResponse, error) {
 	resp := &pb.UserCommonResponse{}
 	err := dao.NewUserDao(ctx).CreateUser(req)
-	if err != nil {
-		resp.Code = errmsg.FAILURE
-		return resp, err
-	}
-
-	err = dao.NewUserDao(ctx).CreateUser(req)
 	if err != nil {
 		resp.Code = errmsg.FAILURE
 		return resp, err
