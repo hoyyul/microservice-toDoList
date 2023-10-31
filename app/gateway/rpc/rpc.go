@@ -24,6 +24,7 @@ var (
 
 func Init() {
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
 
 	// connect etcd and start discovery service
 	initGrpcClient(global.Config.Services["user"].Name, &UserClient)
@@ -60,7 +61,7 @@ func enableEtcdDiscovery(service string) (*grpc.ClientConn, error) {
 
 	//  enable loadbalance policy
 	if global.Config.Services[service].LoadBalance {
-		global.Logger.Println("Enable load balance for %s service", service)
+		global.Logger.Printf("Enable load balance for %s service", service)
 		opts = append(opts, grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`))
 	}
 

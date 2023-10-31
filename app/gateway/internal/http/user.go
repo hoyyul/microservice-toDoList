@@ -49,6 +49,7 @@ func UserRegister(ctx *gin.Context) {
 	}
 
 	r, err := rpc.UserRegister(ctx, &req)
+
 	if err != nil {
 		global.Logger.Panicln(err)
 		resp.SendWithNotOk(http.StatusInternalServerError, "Failed to call User RPC service", ctx)

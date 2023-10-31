@@ -45,7 +45,17 @@ func (r *Registrar) Register(srv Server, ttl int64) error {
 	em.AddEndpoint(context.TODO(), BuildRegisterPath(r.srv), endpoints.Endpoint{Addr: r.srv.Addr}, clientv3.WithLease(lease.ID))
 
 	// revoke
-	go r.cli.KeepAlive(context.TODO(), lease.ID)
+	ch, _ := r.cli.KeepAlive(context.TODO(), lease.ID)
+
+	// consume the ka in channel to avoid max capacity
+	go func() {
+		for {
+			ka := <-ch
+			if ka != nil {
+				continue
+			}
+		}
+	}()
 
 	return nil
 }
