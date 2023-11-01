@@ -9,7 +9,7 @@ require (
 	github.com/spf13/viper v1.17.0
 	go.etcd.io/etcd/client/v3 v3.5.10
 	golang.org/x/crypto v0.14.0
-	google.golang.org/grpc v1.58.3
+	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.5

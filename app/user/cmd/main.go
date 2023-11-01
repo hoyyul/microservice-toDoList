@@ -29,7 +29,7 @@ func main() {
 		Addr: userAddr,
 	}
 
-	// register service to etcd
+	// register user server address to etcd
 	if err := etcdRegistrar.Register(server, 10); err != nil {
 		global.Logger.Fatalln("Failed to register service to Etcd Server")
 		return
@@ -41,14 +41,15 @@ func main() {
 		global.Logger.Panic(err)
 		return
 	}
+	defer listener.Close()
 	global.Logger.Printf("Listeing to %v", listener.Addr())
 
 	// register my server to grpc server
 	grpcServer := grpc.NewServer()
-	defer grpcServer.Stop()
+	defer grpcServer.GracefulStop()
 	pb.RegisterUserServiceServer(grpcServer, service.NewUserService())
 
-	// enable grpc  to serve
+	// enable grpc to serve
 	if err := grpcServer.Serve(listener); err != nil {
 		return
 	}

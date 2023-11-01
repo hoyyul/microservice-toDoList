@@ -3,6 +3,7 @@ package eTcd
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"micro-toDoList/global"
 	"time"
 
@@ -31,7 +32,7 @@ func NewRegistrar(etcdAddrs []string) *Registrar {
 }
 
 func (r *Registrar) Register(srv Server, ttl int64) error {
-	// set server
+	// save server info
 	r.Srv = srv
 
 	// create an etcd client to connect etcd server
@@ -45,6 +46,7 @@ func (r *Registrar) Register(srv Server, ttl int64) error {
 	}
 	r.Cli = cli
 
+	// register service
 	go r.keepAlive()
 
 	return nil
@@ -68,7 +70,8 @@ func (r *Registrar) register() error {
 	}
 
 	// 3. Put; save key-value in etcd, etcd is a key-value store
-	key := BuildRegisterPath(r.Srv)     // key
+	key := BuildRegisterPath(r.Srv) // key; e.g /user/127.0.0.1:10001
+	fmt.Println(key)
 	srvInfo, err := json.Marshal(r.Srv) // value
 	if err != nil {
 		return err
@@ -86,17 +89,19 @@ func (r *Registrar) keepAlive() {
 	ticker := time.NewTicker(time.Duration(r.DialTimeout) * time.Second)
 	for {
 		select { // channel 版本的switch；看看那个准备好了； 如果多个准备好了就随机选一个
+		// end user service
 		case <-r.closeCh:
 			if err := r.unRegister(); err != nil {
 				global.Logger.Error(err)
 			}
-			// release the capacity of keepAlive channel
+		// release the capacity of keepAlive channel
 		case resp := <-r.keepAliveCh:
 			if resp == nil {
 				if err := r.register(); err != nil {
 					global.Logger.Error(err)
 				}
 			}
+		// periodacally check service key-value alive in etcd
 		case <-ticker.C:
 			resp, err := r.Cli.Get(context.Background(), BuildRegisterPath(r.Srv))
 			if err != nil {
@@ -132,6 +137,9 @@ func (r *Registrar) unRegister() error {
 	if err != nil {
 		return err
 	}
+
+	// close connect
+	r.Cli.Close()
 
 	return nil
 }

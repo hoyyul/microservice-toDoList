@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 	"micro-toDoList/global"
+	"micro-toDoList/pkg/eTcd"
 	"micro-toDoList/pkg/pb"
 
 	"time"
 
-	clientv3 "go.etcd.io/etcd/client/v3"
-	resolver "go.etcd.io/etcd/client/v3/naming/resolver"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/resolver"
 )
 
 var (
@@ -19,12 +19,19 @@ var (
 	ctx    context.Context
 	cancel context.CancelFunc
 
+	Resolver *eTcd.Resolver
+
 	UserClient pb.UserServiceClient
 )
 
 func Init() {
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
+
+	// grpc register a etcd resolver
+	etcdAddrs := []string{global.Config.Etcd.Address}
+	Resolver = eTcd.NewResolver(etcdAddrs)
+	resolver.Register(Resolver)
 
 	// connect etcd and start discovery service
 	initGrpcClient(global.Config.Services["user"].Name, &UserClient)
@@ -45,32 +52,21 @@ func initGrpcClient(service string, client interface{}) {
 	}
 }
 
-func enableEtcdDiscovery(service string) (*grpc.ClientConn, error) {
-	// create a etcd client
-	etcdUrl := fmt.Sprintf("http://%s", global.Config.Etcd.Address)
-	etcdClient, _ := clientv3.NewFromURL(etcdUrl)
-
-	// create a ectd resolver
-	etcdResolver, _ := resolver.NewBuilder(etcdClient)
-
-	// connect
-	opts := []grpc.DialOption{ // client-side option; serviceOption is server-side option
+func enableEtcdDiscovery(serviceName string) (*grpc.ClientConn, error) {
+	opts := []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithResolvers(etcdResolver),
 	}
+	target := fmt.Sprintf("%s:///%s", Resolver.Scheme(), serviceName)
 
 	//  enable loadbalance policy
-	if global.Config.Services[service].LoadBalance {
-		global.Logger.Printf("Enable load balance for %s service", service)
+	if global.Config.Services[serviceName].LoadBalance {
+		global.Logger.Printf("Enable load balance for %s service", serviceName)
 		opts = append(opts, grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`))
 	}
 
-	// discovery service
-	addr := fmt.Sprintf("etcd:///%s/", service) // 在client和server间加入中间键来交流
-	conn, err := grpc.DialContext(ctx, addr, opts...)
+	conn, err := grpc.DialContext(ctx, target, opts...)
 	if err != nil {
 		return nil, err
 	}
-
 	return conn, nil
 }
