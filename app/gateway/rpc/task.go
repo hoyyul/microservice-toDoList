@@ -38,5 +38,5 @@ func TaskShow(ctx context.Context, req *task_pb.TaskRequest) ([]*task_pb.Task, e
 		return nil, err
 	}
 
-	return r.GetTaskDetail(), nil
+	return r.TaskDetail, nil
 }
