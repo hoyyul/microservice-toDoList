@@ -31,12 +31,3 @@ func UserRegister(ctx context.Context, req *user_pb.UserRequest) (*user_pb.UserC
 
 	return r, nil
 }
-
-func UserLogout(ctx context.Context, req *user_pb.UserRequest) (resp *user_pb.UserCommonResponse, err error) {
-	r, err := UserClient.UserLogout(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return r, nil
-}

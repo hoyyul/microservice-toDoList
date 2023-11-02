@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"micro-toDoList/app/gateway/internal/cache"
 	"micro-toDoList/app/gateway/routes"
 	"micro-toDoList/app/gateway/rpc"
 	"micro-toDoList/global"
@@ -18,6 +19,9 @@ func main() {
 	// global setting
 	setting.InitConfig()
 	setting.InitLogger()
+
+	// cache setting
+	cache.InitRedis()
 
 	// enable etcd discover services
 	rpc.Init()

@@ -2,6 +2,7 @@ package routes
 
 import (
 	"micro-toDoList/app/gateway/internal/http"
+	"micro-toDoList/app/gateway/middleware"
 	"micro-toDoList/global"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,7 @@ func NewRouter() *gin.Engine {
 
 	// Task service
 	taskApiGroup := apiGroup.Group("/task/")
+	taskApiGroup.Use(middleware.CheckJwtToken())
 	taskApiGroup.POST("/", http.TaskCreate)
 	taskApiGroup.DELETE("/", http.TaskDelete)
 	taskApiGroup.PUT("/", http.TaskUpdate)

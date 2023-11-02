@@ -30,6 +30,7 @@ type Etcd struct {
 type Redis struct {
 	Address  string `yaml:"address"`
 	Password string `yaml:"password"`
+	PoolSize int    `yaml:"pool_size"`
 }
 
 type Service struct {

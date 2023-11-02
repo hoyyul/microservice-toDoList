@@ -1,6 +1,7 @@
 package http
 
 import (
+	"micro-toDoList/app/gateway/internal/cache"
 	"micro-toDoList/app/gateway/rpc"
 	"micro-toDoList/global"
 	"micro-toDoList/pkg/pb/user_pb"
@@ -58,6 +59,15 @@ func UserRegister(ctx *gin.Context) {
 	resp.SendWithOk(http.StatusOK, r, "Register a user successfully", ctx)
 }
 
+// no need to call grpc service and operate database.
 func UserLogout(ctx *gin.Context) {
+	_claim, _ := ctx.Get("claim")
+	claim := _claim.(*jwts.CustomClaim)
 
+	token := ctx.Request.Header.Get("token")
+
+	// save expired token in cache
+	cache.NewRedisService().SaveToken(*claim, token)
+
+	resp.SendWithOk(http.StatusOK, map[string]interface{}{}, "User logout successfully", ctx)
 }
