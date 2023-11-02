@@ -15,12 +15,20 @@ services:
     volumes:
       - ./config/sql:/docker-entrypoint-initdb.d/
     ports:
-      - "3306:3306"
+      - 3306:3306
     networks:
       - todolist
 
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./config/redis:/data
+    command: redis-server --appendonly yes
+  
   etcd:
-    image: "quay.io/coreos/etcd:v3.5.5"
+    image: quay.io/coreos/etcd:v3.5.5
     container_name: etcd
     restart: on-failure
     privileged: true
@@ -29,28 +37,23 @@ services:
     environment:
       - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
       - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
-      - "ALLOW_NONE_AUTHENTICATION=yes"
+      - ALLOW_NONE_AUTHENTICATION=yes
       - ETCD_API=3
-      - ETCD_CERT_FILE="/path/to/server.crt"
-      - ETCD_KEY_FILE="/path/to/server.key"
-      - ETCD_AUTH="simple"
-      - ETCD_AUTH_USER="todolist"
-      - ETCD_AUTH_PASSWORD="todolist"
+      - ETCD_AUTH=simple
+      - ETCD_AUTH_USER=todolist
+      - ETCD_AUTH_PASSWORD=todolist
     networks:
       - todolist
 
 
   etcd-keeper:
-    image: "evildecay/etcdkeeper:latest"
+    image: evildecay/etcdkeeper:latest
     container_name: etcd-keeper
     environment:
-      - ETCD_HOSTS = http://etcd:2379
-      - SW_STORAGE_ETCD_CLUSTER_NODES = etcd:2379
-      - HOST = 127.0.0.1
-      - HOSTNAME = etcd-keeper
+      - ETCD_HOSTS=http://etcd:2379
     links:
       - etcd
     ports:
-      - "8080:8080"
+      - 8080:8080
     networks:
       - todolist
