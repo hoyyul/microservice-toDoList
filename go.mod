@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
+	github.com/fatih/structs v1.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.17.0
