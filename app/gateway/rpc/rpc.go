@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"micro-toDoList/global"
 	"micro-toDoList/pkg/eTcd"
+	"micro-toDoList/pkg/pb/task_pb"
 	"micro-toDoList/pkg/pb/user_pb"
 
 	"time"
@@ -22,6 +23,7 @@ var (
 	Resolver *eTcd.Resolver
 
 	UserClient user_pb.UserServiceClient
+	TaskClient task_pb.TaskServiceClient
 )
 
 func Init() {
@@ -35,6 +37,7 @@ func Init() {
 
 	// connect etcd and start discovery service
 	initGrpcClient(global.Config.Services["user"].Name, &UserClient)
+	initGrpcClient(global.Config.Services["task"].Name, &TaskClient)
 }
 
 // create a grpc client sub for a connection

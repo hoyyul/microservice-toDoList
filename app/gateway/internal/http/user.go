@@ -57,3 +57,7 @@ func UserRegister(ctx *gin.Context) {
 	}
 	resp.SendWithOk(http.StatusOK, r, "Register a user successfully", ctx)
 }
+
+func UserLogout(ctx *gin.Context) {
+
+}

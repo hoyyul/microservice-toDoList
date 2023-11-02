@@ -8,7 +8,7 @@ import (
 )
 
 func UserLogin(ctx context.Context, req *user_pb.UserRequest) (*user_pb.UserResponse, error) {
-	// 这里接收的是detail res，但最终返回的是普通res
+	// 这里接收的是detail resp，但最终返回的是普通resp
 	r, err := UserClient.UserLogin(ctx, req)
 	if err != nil {
 		return nil, err
@@ -25,6 +25,15 @@ func UserLogin(ctx context.Context, req *user_pb.UserRequest) (*user_pb.UserResp
 
 func UserRegister(ctx context.Context, req *user_pb.UserRequest) (*user_pb.UserCommonResponse, error) {
 	r, err := UserClient.UserRegister(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func UserLogout(ctx context.Context, req *user_pb.UserRequest) (resp *user_pb.UserCommonResponse, err error) {
+	r, err := UserClient.UserLogout(ctx, req)
 	if err != nil {
 		return nil, err
 	}

@@ -18,6 +18,7 @@ etcd:
 redis:
   address: 127.0.0.1:6369
   password:
+  pool_size: 100
 
 services:
   gateway:
