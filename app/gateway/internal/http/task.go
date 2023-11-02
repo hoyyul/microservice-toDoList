@@ -123,5 +123,10 @@ func TaskShow(ctx *gin.Context) {
 		resp.SendWithNotOk(http.StatusInternalServerError, "Failed to call User RPC service", ctx)
 		return
 	}
+	if len(r) == 0 {
+		resp.SendWithOk(http.StatusOK, map[string]interface{}{}, "Get task details succussfully!", ctx)
+		return
+	}
+
 	resp.SendWithOk(http.StatusOK, r, "Get task details succussfully!", ctx)
 }

@@ -1,0 +1,578 @@
+{
+	"info": {
+		"_postman_id": "52172c1f-6ebc-4cfe-9fd6-1443fa4cf919",
+		"name": "todolist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29132481"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "UserName",
+									"value": "halu",
+									"type": "text"
+								},
+								{
+									"key": "NickName",
+									"value": "hallu",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "PasswordConfirm",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/user/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "UserName",
+									"value": "halu",
+									"type": "text"
+								},
+								{
+									"key": "Password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/user/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/user/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "create task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Title",
+									"value": "task1",
+									"type": "text"
+								},
+								{
+									"key": "Content",
+									"value": "task1 working",
+									"type": "text"
+								},
+								{
+									"key": "Status",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "StartTime",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "EndTime",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/task",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "创建备忘录",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "一键三连加关注！！！",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "我可太喜欢up了！！！！",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "start_time",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "end_time",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/task",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 20 May 2023 05:30:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"code\": 200,\n        \"msg\": \"ok\",\n        \"data\": \"\"\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get tasks detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/task",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "获取备忘录列表",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/task",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 20 May 2023 05:31:14 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "222"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"task_model\": [\n            {\n                \"task_id\": 1,\n                \"user_id\": 1,\n                \"status\": 0,\n                \"title\": \"一键三连加关注！！！\",\n                \"content\": \"我可太喜欢up了！！！！\",\n                \"start_time\": 0,\n                \"end_time\": 0\n            }\n        ],\n        \"code\": 200\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "TaskId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "Title",
+									"value": "new task1 ",
+									"type": "text"
+								},
+								{
+									"key": "Content",
+									"value": "new task1 working",
+									"type": "text"
+								},
+								{
+									"key": "Status",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "StartTime",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "EndTime",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/task",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "修改备忘录",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "task_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "我太喜欢点赞了！",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "拒绝白嫖，从我做起111",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "start_time",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "end_time",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/task",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 20 May 2023 05:40:35 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"code\": 200,\n        \"msg\": \"ok\",\n        \"data\": \"\"\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "TaskId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/task",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "删除备忘录",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "task_id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/task",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 20 May 2023 07:01:26 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"code\": 200,\n        \"msg\": \"ok\",\n        \"data\": \"\"\n    },\n    \"msg\": \"ok\",\n    \"error\": \"\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
