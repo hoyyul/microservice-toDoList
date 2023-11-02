@@ -74,6 +74,7 @@ func (r *Resolver) Scheme() string {
 	return myScheme
 }
 
+// watching service key-value update
 func (r *Resolver) watch() {
 	ticker := time.NewTicker(time.Second * time.Duration(60))
 	r.watchCh = r.Cli.Watch(context.Background(), r.KeyPrefix, clientv3.WithPrefix()) // watchCh : <-watchRepsonse
@@ -101,6 +102,7 @@ func (r *Resolver) watch() {
 	}
 }
 
+// update action
 func (r *Resolver) update(events []*clientv3.Event) error {
 	for _, event := range events {
 		srvInfo, err := ParseValue(event.Kv.Value)
@@ -126,6 +128,7 @@ func (r *Resolver) update(events []*clientv3.Event) error {
 	return nil
 }
 
+// update to new service addresses
 func (r *Resolver) synchro() error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(r.DialTimeout)*time.Second)
 	defer cancel()

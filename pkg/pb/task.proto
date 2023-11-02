@@ -1,0 +1,63 @@
+syntax="proto3";
+// root path = .
+// protoc -I pkg/pb pkg/pb/*.proto --go_out=. --go-grpc_out=. 
+option go_package = "/pkg/pb/task_pb";
+
+package task_pb;
+
+message Task{
+    // @inject_tag: json:"task_id" form:"task_id"
+    int64 TaskId=1;
+    // @inject_tag: json:"user_id" form:"user_id"
+    int64 UserId=2;
+    // @inject_tag: json:"status" form:"status"
+    int64 Status=3;
+    // @inject_tag: json:"title" form:"title"
+    string Title=4;
+    // @inject_tag: json:"content" form:"content"
+    string Content=5;
+    // @inject_tag: json:"start_time" form:"start_time"
+    int64 StartTime=6;
+    // @inject_tag: json:"end_time" form:"end_time"
+    int64 EndTime=7;
+}
+
+message TaskRequest{
+    // @inject_tag: json:"task_id" form:"task_id"
+    int64 TaskId=1;
+    // @inject_tag: json:"user_id" form:"user_id"
+    int64 UserId=2;
+    // @inject_tag: json:"status" form:"status"
+    int64 Status=3;
+    // @inject_tag: json:"title" form:"title"
+    string Title=4;
+    // @inject_tag: json:"content" form:"content"
+    string Content=5;
+    // @inject_tag: json:"start_time" form:"start_time"
+    int64 StartTime=6;
+    // @inject_tag: json:"end_time" form:"end_time"
+    int64 EndTime=7;
+}
+
+message TaskDetailResponse{
+    // @inject_tag: json:"task" form:"task"
+    repeated Task TaskDetail=1;
+    // @inject_tag: json:"code" form:"code"" uri:"code""
+    int64 Code=2;
+}
+
+message TaskCommonResponse{
+    // @inject_tag: json:"code" form:"code"
+    int64 Code=1;
+    // @inject_tag: json:"msg" form:"msg"
+    string Msg=2;
+    // @inject_tag: json:"data" form:"data"
+    string Data=3;
+}
+
+service TaskService{
+  rpc TaskCreate(TaskRequest) returns (TaskCommonResponse);
+  rpc TaskDelete(TaskRequest) returns (TaskCommonResponse);
+  rpc TaskUpdate(TaskRequest) returns (TaskCommonResponse);
+  rpc TaskShow(TaskRequest) returns (TaskDetailResponse);
+}

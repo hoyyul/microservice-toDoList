@@ -3,7 +3,7 @@ package http
 import (
 	"micro-toDoList/app/gateway/rpc"
 	"micro-toDoList/global"
-	"micro-toDoList/pkg/pb"
+	"micro-toDoList/pkg/pb/user_pb"
 	"micro-toDoList/pkg/resp"
 	"micro-toDoList/pkg/util/jwts"
 
@@ -13,7 +13,7 @@ import (
 )
 
 func UserLogin(ctx *gin.Context) {
-	var req pb.UserRequest
+	var req user_pb.UserRequest
 	err := ctx.Bind(&req)
 	if err != nil {
 		global.Logger.Panicln(err)
@@ -36,11 +36,11 @@ func UserLogin(ctx *gin.Context) {
 		return
 	}
 
-	resp.SendWithOk(http.StatusOK, token, ctx)
+	resp.SendWithOk(http.StatusOK, token, "Login successfully", ctx)
 }
 
 func UserRegister(ctx *gin.Context) {
-	var req pb.UserRequest
+	var req user_pb.UserRequest
 	err := ctx.Bind(&req)
 	if err != nil {
 		global.Logger.Panicln(err)
@@ -55,5 +55,5 @@ func UserRegister(ctx *gin.Context) {
 		resp.SendWithNotOk(http.StatusInternalServerError, "Failed to call User RPC service", ctx)
 		return
 	}
-	resp.SendWithOk(http.StatusOK, r, ctx)
+	resp.SendWithOk(http.StatusOK, r, "Register a user successfully", ctx)
 }

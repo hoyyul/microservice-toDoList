@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"micro-toDoList/global"
 	"micro-toDoList/pkg/eTcd"
-	"micro-toDoList/pkg/pb"
+	"micro-toDoList/pkg/pb/user_pb"
 
 	"time"
 
@@ -21,7 +21,7 @@ var (
 
 	Resolver *eTcd.Resolver
 
-	UserClient pb.UserServiceClient
+	UserClient user_pb.UserServiceClient
 )
 
 func Init() {
@@ -45,8 +45,8 @@ func initGrpcClient(service string, client interface{}) {
 	}
 
 	switch c := client.(type) { //记住这种写发，c := client.(type)实际判断是client（指针）的类型；*c = pb.NewUserServiceClient(conn)实际是把值赋到client指向的地址。也就是说赋给UserClient
-	case *pb.UserServiceClient:
-		*c = pb.NewUserServiceClient(conn)
+	case *user_pb.UserServiceClient:
+		*c = user_pb.NewUserServiceClient(conn)
 	default:
 		global.Logger.Panicln("Invalid type")
 	}

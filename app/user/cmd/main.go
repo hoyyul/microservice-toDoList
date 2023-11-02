@@ -5,7 +5,7 @@ import (
 	"micro-toDoList/app/user/internal/service"
 	"micro-toDoList/global"
 	"micro-toDoList/pkg/eTcd"
-	"micro-toDoList/pkg/pb"
+	"micro-toDoList/pkg/pb/user_pb"
 	"micro-toDoList/setting"
 	"net"
 
@@ -47,7 +47,7 @@ func main() {
 	// register my server to grpc server
 	grpcServer := grpc.NewServer()
 	defer grpcServer.GracefulStop()
-	pb.RegisterUserServiceServer(grpcServer, service.NewUserService())
+	user_pb.RegisterUserServiceServer(grpcServer, service.NewUserService())
 
 	// enable grpc to serve
 	if err := grpcServer.Serve(listener); err != nil {
