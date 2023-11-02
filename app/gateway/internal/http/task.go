@@ -88,7 +88,7 @@ func TaskUpdate(ctx *gin.Context) {
 	req.UserId = claim.UserId
 
 	// create task
-	r, err := rpc.TaskDelete(ctx, &req)
+	r, err := rpc.TaskUpdate(ctx, &req)
 	if err != nil {
 		global.Logger.Panicln(err)
 		resp.SendWithNotOk(http.StatusInternalServerError, "Failed to call User RPC service", ctx)
@@ -123,6 +123,5 @@ func TaskShow(ctx *gin.Context) {
 		resp.SendWithNotOk(http.StatusInternalServerError, "Failed to call User RPC service", ctx)
 		return
 	}
-
 	resp.SendWithOk(http.StatusOK, r, "Get task details succussfully!", ctx)
 }

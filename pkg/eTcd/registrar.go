@@ -105,7 +105,6 @@ func (r *Registrar) keepAlive() {
 		case <-ticker.C:
 			resp, err := r.Cli.Get(context.Background(), BuildRegisterPath(r.Srv))
 			if err != nil {
-				global.Logger.Panicln(err)
 				if err := r.register(); err != nil {
 					global.Logger.Error(err)
 				}

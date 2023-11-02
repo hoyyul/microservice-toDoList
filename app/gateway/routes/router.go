@@ -19,7 +19,7 @@ func NewRouter() *gin.Engine {
 	userApiGroup := apiGroup.Group("/user/")
 	userApiGroup.POST("login", http.UserLogin)
 	userApiGroup.POST("register", http.UserRegister)
-	userApiGroup.DELETE("logout", http.UserLogout)
+	userApiGroup.DELETE("logout", middleware.CheckJwtToken(), http.UserLogout)
 
 	// Task service
 	taskApiGroup := apiGroup.Group("/task/")

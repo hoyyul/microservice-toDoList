@@ -6,7 +6,6 @@ import (
 	"micro-toDoList/app/task/internal/repository/model"
 	"micro-toDoList/pkg/pb/task_pb"
 
-	"github.com/fatih/structs"
 	"gorm.io/gorm"
 )
 
@@ -49,20 +48,17 @@ func (dao *TaskDao) DeleteTaskById(taskId int64) error {
 
 func (dao *TaskDao) UpdateTask(req *task_pb.TaskRequest) error {
 	var count int64
-	dao.Model(model.Task{}).Where("task_title=?", req.Title).Count(&count)
-	if count > 0 {
-		return errors.New("task already exists")
+	dao.Model(model.Task{}).Where("task_id=?", req.TaskId).Count(&count)
+	if count == 0 {
+		return errors.New("task doesn't exist")
 	}
 
-	task := &model.Task{
-		UserId:    req.UserId,
-		Status:    int(req.Status),
-		Title:     req.Title,
-		Content:   req.Content,
-		StartTime: req.StartTime,
-		EndTime:   req.EndTime,
-	}
-	taskMap := structs.Map(task)
+	taskMap := make(map[string]interface{})
+	taskMap["title"] = req.Title
+	taskMap["content"] = req.Content
+	taskMap["status"] = int(req.Status)
+	taskMap["start_time"] = req.StartTime
+	taskMap["end_time"] = req.EndTime
 
 	err := dao.Model(model.Task{}).Where("task_id=?", req.TaskId).Updates(&taskMap).Error
 	if err != nil {

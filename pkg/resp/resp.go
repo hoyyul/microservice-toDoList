@@ -16,7 +16,7 @@ func SendWithOk(status int, data interface{}, msg string, ctx *gin.Context) {
 	ctx.JSON(status, Response{
 		Code: errmsg.SUCCESS,
 		Data: data,
-		Msg:  "",
+		Msg:  msg,
 	})
 }
 

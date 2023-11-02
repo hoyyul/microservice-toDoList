@@ -50,6 +50,8 @@ func initGrpcClient(service string, client interface{}) {
 	switch c := client.(type) { //记住这种写发，c := client.(type)实际判断是client（指针）的类型；*c = pb.NewUserServiceClient(conn)实际是把值赋到client指向的地址。也就是说赋给UserClient
 	case *user_pb.UserServiceClient:
 		*c = user_pb.NewUserServiceClient(conn)
+	case *task_pb.TaskServiceClient:
+		*c = task_pb.NewTaskServiceClient(conn)
 	default:
 		global.Logger.Panicln("Invalid type")
 	}

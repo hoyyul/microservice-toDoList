@@ -16,7 +16,7 @@ etcd:
   address: 127.0.0.1:2379
 
 redis:
-  address: 127.0.0.1:6369
+  address: 127.0.0.1:6379
   password:
   pool_size: 100
 
