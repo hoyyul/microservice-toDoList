@@ -1,6 +1,8 @@
 # microservice-toDoList
 
-A golang microservice framework built upon on gin, gorm, redis, grpc, etcd.
+A golang microservice framework built upon on gin, gorm, redis, grpc, etcd. The project follows the principles of clean architecture.
+
+redis is used to store user tokens as a caching system. gRPC is used to manage communication between the gateway and microservices. etcd is used to handle service registration and discovery.
 
 ## Main Dependencies
 - gin
